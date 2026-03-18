@@ -147,6 +147,11 @@
                            onclick="return confirmDelete()">
                             Delete
                         </a>
+                        <a class="action-btn restore-btn"
+                           href="/home?action=update-listuser&id=${user.getId()}">
+                           update
+                        </a>
+
                     </c:when>
 
                     <c:otherwise>
@@ -155,8 +160,8 @@
                             Restore
                         </a>
                     </c:otherwise>
-
                 </c:choose>
+
             </td>
         </tr>
     </c:forEach>

@@ -2,6 +2,7 @@ package org.example.qlthuvien.controller;
 
 import org.example.qlthuvien.dao.user.UserDao;
 import org.example.qlthuvien.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,9 +21,9 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user=userDao.checkUser(username,password);
-        System.out.println(user);
-        if (user!=null){
+        String pass=userDao.get_pass(username);
+        if(pass!=null && BCrypt.checkpw(password, pass)){
+            User user=userDao.checkUser(username,pass);
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             response.sendRedirect("/lib");

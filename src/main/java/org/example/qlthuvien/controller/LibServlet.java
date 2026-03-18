@@ -21,12 +21,18 @@ public class LibServlet extends HttpServlet {
             case "add-book":
                 libservice.showadd_book(request,response);
                 break;
-                case "delete-book":
+            case "delete-book":
                     libservice.delete_book(request,response);
                     break;
-                 case "update-book":
+            case "update-book":
                      libservice.showupdate_book(request,response);
                      break;
+            case "view-category":
+                         libservice.showview_category(request,response);
+                         break;
+            case "delete-category":
+                libservice.delete_category(request,response);
+                break;
             case "search-book":
             default:
                 libservice.show_lib(request,response);
@@ -51,6 +57,18 @@ public class LibServlet extends HttpServlet {
                 break;
             case "search-book":
                 libservice.show_lib(request,response);
+                break;
+                case "view-category":
+                    libservice.showview_category(request,response);
+                    break;
+            case "add-category":
+                libservice.add_category(request,response);
+                break;
+                case "update-category":
+                    libservice.update_category(request,response);
+                    break;
+            case "delete-category":
+                libservice.delete_category(request,response);
                 break;
         }
     }

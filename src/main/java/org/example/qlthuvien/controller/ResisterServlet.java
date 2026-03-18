@@ -2,6 +2,7 @@ package org.example.qlthuvien.controller;
 
 import org.example.qlthuvien.dao.user.UserDao;
 import org.example.qlthuvien.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,7 +36,8 @@ public class ResisterServlet extends HttpServlet {
         for (User user1 : users) {
             if (username.equals(user1.getUsername())) {
                 session.setAttribute("message","username da ton tai");
-                response.sendRedirect("/register");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/register.jsp");
+                dispatcher.forward(request,response);
                 return;
             }
         }
@@ -44,12 +46,14 @@ public class ResisterServlet extends HttpServlet {
         for (User user1 : users) {
             if (email.equals(user1.getEmail())) {
                 session.setAttribute("message","email da ton tai");
-                response.sendRedirect("/register");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/register.jsp");
+                dispatcher.forward(request,response);
                 return;
             }
         }
 
-        String password = request.getParameter("password");
+        String password1 = request.getParameter("password");
+        String password=BCrypt.hashpw(password1, BCrypt.gensalt());
         String name = request.getParameter("name");
         String dateStr = request.getParameter("date");
         LocalDate birthday = LocalDate.parse(dateStr);

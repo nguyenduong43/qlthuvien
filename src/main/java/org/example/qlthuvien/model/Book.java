@@ -8,6 +8,15 @@ public class Book {
     private String status;
     private String category_name;
     private String publisher_name;
+    private int category_id;
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
 
     public int getId() {
         return id;
@@ -73,6 +82,7 @@ public class Book {
         this.status = builder.status;
         this.category_name = builder.category_name;
         this.publisher_name = builder.publisher_name;
+        this.category_id=builder.category_id;
     }
     public static class Builder{
           private int id;
@@ -82,8 +92,13 @@ public class Book {
           private String status;
           private String category_name;
           private String publisher_name;
+          private int category_id;
           public Builder id(int id){
               this.id=id;
+              return this;
+          }
+          public Builder category_id(int category_id){
+              this.category_id=category_id;
               return this;
           }
           public Builder name(String name){

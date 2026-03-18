@@ -21,11 +21,13 @@ public class LibraryDao implements IlibraryDao{
         return connection;
     }
     @Override
-    public List<Book> selectAllLibraries(String keyword) {
+    public List<Book> selectAllLibraries(String keyword, int limit, int offset) {
         List<Book> libraries = new ArrayList<>();
-        String query="call selectall_book(?)";
+        String query="call selectall_book(?,?,?)";
         try(Connection connection=getConnection(); CallableStatement callableStatement=connection.prepareCall(query);){
            callableStatement.setString(1,keyword);
+           callableStatement.setInt(2,limit);
+           callableStatement.setInt(3,offset);
             ResultSet rs=callableStatement.executeQuery();
             while(rs.next()){
                 int id = rs.getInt("id");
@@ -147,5 +149,93 @@ public class LibraryDao implements IlibraryDao{
             e.printStackTrace();
         }
         return book;
+    }
+
+    @Override
+    public int count() {
+        String query="call count_book()";
+        int count=0;
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);){
+            ResultSet rs=callableStatement.executeQuery();
+            if(rs.next())
+            {
+                count=rs.getInt(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public int count1(String keyword) {
+        String query="call count_book1(?)";
+        int count=0;
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);){
+           callableStatement.setString(1,keyword);
+            ResultSet rs=callableStatement.executeQuery();
+            if(rs.next())
+            {
+                count=rs.getInt(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public List<Book> select_category1() {
+        String query="call select_name_c()";
+        List<Book> books=new ArrayList<>();
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);){
+            ResultSet rs=callableStatement.executeQuery();
+            while(rs.next()){
+                int id=rs.getInt("id");
+                String name=rs.getString("name");
+                Book book=new Book.Builder().category_id(id).category_name(name).build();
+                books.add(book);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+    @Override
+    public void add_category(String name) {
+        String query="call add_categories(?)";
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);){
+            callableStatement.setString(1,name);
+            callableStatement.execute();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void update_category(int id, String name) {
+        String query="call update_category(?,?)";
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);)
+        {
+            callableStatement.setInt(1,id);
+            callableStatement.setString(2,name);
+            callableStatement.execute();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete_category(int id) {
+        String query="call delete_category(?)";
+        try(Connection connection=getConnection();CallableStatement callableStatement=connection.prepareCall(query);)
+        {
+            callableStatement.setInt(1,id);
+            callableStatement.execute();
+        }catch (SQLException e)
+            {
+            e.printStackTrace();
+            }
     }
 }

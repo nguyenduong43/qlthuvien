@@ -10,4 +10,9 @@ public interface ILibservice {
     public void delete_book(HttpServletRequest request, HttpServletResponse response);
     public void showupdate_book(HttpServletRequest request, HttpServletResponse response);
     public void update_book(HttpServletRequest request, HttpServletResponse response);
+    public void showview_category(HttpServletRequest request, HttpServletResponse response);
+    public void showadd_category(HttpServletRequest request, HttpServletResponse response);
+    public void add_category(HttpServletRequest request, HttpServletResponse response);
+    public void update_category(HttpServletRequest request, HttpServletResponse response);
+    public void delete_category(HttpServletRequest request, HttpServletResponse response);
 }
